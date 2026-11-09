@@ -1,28 +1,25 @@
 import { describe, expect, it } from 'vitest'
-import { describeResults, neighbours } from './describe.js'
+import { describePosition, describeSeen, neighbours } from './describe.js'
 
-const byId = { key: 'id', direction: 'asc' }
-
-describe('describeResults', () => {
-  it('sem filtro, conta os Pokémon', () => {
-    expect(describeResults({ count: 151, query: '', type: null, sort: byId })).toBe('151 Pokémon de Kanto')
+describe('describePosition', () => {
+  it('sem filtro, só a posição', () => {
+    expect(describePosition({ index: 5, count: 151 })).toBe('6 de 151')
   })
 
-  it('com tipo, diz o tipo', () => {
-    expect(describeResults({ count: 12, query: '', type: 'Fire', sort: byId })).toBe('12 do tipo Fire')
-  })
-
-  it('com busca, cita o texto e acerta o singular', () => {
-    expect(describeResults({ count: 1, query: ' char ', type: 'Flying', sort: byId })).toBe(
-      '1 resultado para “char” no tipo Flying',
+  it('cita a busca, o tipo e os favoritos', () => {
+    expect(describePosition({ index: 0, count: 1, query: ' char ', type: 'Flying', favoritesOnly: true })).toBe(
+      '1 de 1 · “char” · Flying · favoritos',
     )
-    expect(describeResults({ count: 0, query: 'xyz', type: null, sort: byId })).toBe('0 resultados para “xyz”')
   })
 
-  it('acrescenta a ordenação quando não é a padrão', () => {
-    expect(describeResults({ count: 151, query: '', type: null, sort: { key: 'speed', direction: 'desc' } })).toBe(
-      '151 Pokémon de Kanto · por velocidade, do maior para o menor',
-    )
+  it('avisa quando a lista está vazia', () => {
+    expect(describePosition({ index: 0, count: 0, query: 'xyz' })).toBe('Nenhum resultado')
+  })
+})
+
+describe('describeSeen', () => {
+  it('conta os vistos', () => {
+    expect(describeSeen(23, 151)).toBe('Vistos 23 de 151')
   })
 })
 

@@ -1,78 +1,249 @@
-/* Moldura: barra lateral + coluna principal. */
+/* Página: faixa do topo, palco do aparelho e créditos. */
 .app {
-  display: grid;
-  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   min-height: 100vh;
 }
 
-.app__main {
-  min-width: 0;
+/* Faixa vinho com anéis concêntricos (planos, sem degradê). */
+.band {
+  position: relative;
+  height: 300px;
+  padding: 18px 24px 0;
+  overflow: hidden;
+  background: var(--band);
+  color: var(--band-ink);
 }
 
-.app__content {
-  padding: 28px var(--gutter) 64px;
+.band__rings {
+  position: absolute;
+  top: 330px;
+  left: 50%;
 }
 
-.app__title-row {
-  margin-bottom: 20px;
+.band__rings span {
+  position: absolute;
+  border: 34px solid var(--band-ring);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.app__title {
-  font-size: var(--fs-title);
+.band__rings span:nth-child(1) {
+  width: 440px;
+  height: 440px;
+}
+
+.band__rings span:nth-child(2) {
+  width: 740px;
+  height: 740px;
+}
+
+.band__rings span:nth-child(3) {
+  width: 1040px;
+  height: 1040px;
+}
+
+.band__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.band__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.brand-mark {
+  width: 26px;
+  height: 26px;
+}
+
+.theme-toggle {
+  --shade: var(--bezel-shade);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: max(var(--target), 36px);
+  padding: 0 14px;
+  border-radius: var(--radius-key);
+  background: var(--white-key);
+  color: var(--white-key-ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.band__title {
+  position: relative;
+  margin-top: 26px;
+  font-size: var(--fs-hero);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  text-align: center;
 }
 
-.app__finding {
-  margin-top: 6px;
-  color: var(--muted);
+.band__lead {
+  position: relative;
+  margin-top: 8px;
+  color: var(--band-muted);
+  font-size: 15px;
+  text-align: center;
 }
 
-.app__toolbar {
-  display: none;
+/* O aparelho começa 120px antes do fim da faixa, como se saísse dela. */
+.stage {
+  position: relative;
+  width: min(1140px, calc(100% - 32px));
+  margin: -120px auto 0;
 }
 
-/* Tablet: some a barra lateral; navegação no pé e tipos em linha. */
-@media (max-width: 1179px) {
-  .app {
+.device {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1fr);
+  filter: drop-shadow(var(--device-shadow));
+}
+
+.device__half {
+  min-width: 0;
+  padding: 20px;
+  border-radius: var(--radius-device);
+  background: var(--device);
+  box-shadow:
+    inset 0 2px 0 var(--device-light),
+    inset 0 -3px 0 var(--device-shade);
+}
+
+.device__half--left {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.device__half--right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.device__hinge {
+  margin: 28px 0;
+  border-radius: 4px;
+  background: var(--device-shade);
+}
+
+.device__controls {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.credits {
+  display: grid;
+  gap: 4px;
+  width: min(1140px, calc(100% - 32px));
+  margin: 28px auto 40px;
+  color: var(--room-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.credits a {
+  color: inherit;
+}
+
+.credits kbd,
+.credits code {
+  padding: 0 5px;
+  border-radius: 4px;
+  background: var(--bezel-shade);
+  color: var(--room-ink);
+  font: inherit;
+  font-size: var(--fs-small);
+}
+
+:root[data-theme='dark'] .credits kbd,
+:root[data-theme='dark'] .credits code {
+  background: #2a2522;
+}
+
+/* Tablet e celular: o aparelho abre na vertical, visor em cima. */
+@media (max-width: 899px) {
+  .device {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 18px auto;
   }
 
-  .app > .sidebar {
-    display: none;
+  .device__hinge {
+    margin: 0 28px;
   }
 
-  .app__content {
-    padding-bottom: calc(var(--bottomnav-height) + 48px + env(safe-area-inset-bottom));
+  .device__half--left {
+    border-radius: var(--radius-device) var(--radius-device) 6px 6px;
   }
 
-  .app__toolbar {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 16px;
+  .device__half--right {
+    border-radius: 6px 6px var(--radius-device) var(--radius-device);
   }
 
-  .app__toolbar .type-filter__title {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
+  .stage {
+    max-width: 620px;
   }
 }
 
-@media (max-width: 767px) {
-  :root {
-    --gutter: 16px;
+@media (max-width: 599px) {
+  .band {
+    height: 230px;
+    padding: 14px 16px 0;
   }
 
-  .app__content {
-    padding-top: 20px;
+  .band__rings {
+    top: 250px;
   }
 
-  .app__title-row {
-    margin-bottom: 14px;
+  .band__title {
+    margin-top: 18px;
+    font-size: 28px;
+  }
+
+  .band__lead {
+    font-size: 13px;
+  }
+
+  .stage {
+    width: calc(100% - 16px);
+    margin-top: -64px;
+  }
+
+  .device__half {
+    padding: 14px;
+  }
+
+  .device__controls {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .device__controls .dpad {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .theme-toggle {
+    padding: 0 10px;
+    font-size: var(--fs-small);
   }
 }

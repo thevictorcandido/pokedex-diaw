@@ -4,22 +4,23 @@
   flex: none;
 }
 
-/* O sprite de 96px tem muita margem transparente: ele é desenhado com 56px
-   dentro de uma caixa de 40px, para o bicho ocupar a caixa. */
+/* O sprite de 96px tem muita margem transparente: ele é desenhado com 64px
+   dentro de uma caixa de 48px, para o bicho ocupar a caixa. */
 .pokemon-image--sprite {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
 }
 
 .pokemon-image--sprite img {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   max-width: none;
 }
 
+/* A arte ocupa a caixa que o visor der para ela. */
 .pokemon-image--artwork {
-  width: 240px;
-  height: 240px;
+  width: 100%;
+  height: 100%;
 }
 
 .pokemon-image--artwork img {
@@ -28,9 +29,14 @@
   object-fit: contain;
 }
 
+.pokemon-image--silhouette img {
+  filter: brightness(0);
+  opacity: 0.72;
+}
+
 .pokemon-image--fallback {
   border-radius: 50%;
-  font-weight: 600;
+  font-weight: 700;
   background: oklch(var(--type-bg-l) calc(var(--type-chroma) * var(--type-bg-c)) var(--type-hue));
   color: oklch(var(--type-ink-l) calc(var(--type-chroma) * var(--type-ink-c)) var(--type-hue));
 }
@@ -40,8 +46,8 @@
 }
 
 .pokemon-image--artwork.pokemon-image--fallback {
-  width: 160px;
-  height: 160px;
-  font-size: 48px;
-  background: var(--surface);
+  width: auto;
+  height: 60%;
+  aspect-ratio: 1;
+  font-size: 56px;
 }

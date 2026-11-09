@@ -1,0 +1,88 @@
+.pokemon-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pokemon-card__art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 1;
+  min-height: 0;
+  padding: 4% 0 2%;
+}
+
+/* Círculo na cor do tipo atrás da arte, um passo mais forte que o fundo. */
+.pokemon-card__disc {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 88%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: oklch(var(--type-disc-l) calc(var(--type-chroma) * var(--type-disc-c)) var(--type-hue));
+}
+
+/* A arte fica presa à caixa: num item de grade, a imagem de 475px não encolheria sozinha. */
+.pokemon-card__art .pokemon-image {
+  position: absolute;
+  inset: 5% 8% 3%;
+  width: auto;
+  height: auto;
+  animation: art-in 180ms var(--ease-out);
+}
+
+.pokemon-card__art .pokemon-image img {
+  min-width: 0;
+  min-height: 0;
+}
+
+.pokemon-card__art .pokemon-image--fallback {
+  inset: auto;
+  height: 60%;
+}
+
+.pokemon-card__caption {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px 10px;
+  background: var(--caption);
+}
+
+.pokemon-card__id {
+  color: var(--screen-muted);
+  font-size: 13px;
+}
+
+.pokemon-card__name {
+  font-size: var(--fs-name);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.pokemon-card__caption .type-badges {
+  justify-content: flex-end;
+}
+
+@keyframes art-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@media (max-width: 599px) {
+  .pokemon-card__name {
+    font-size: 22px;
+  }
+
+  .pokemon-card__caption {
+    padding: 6px 10px 8px;
+  }
+}

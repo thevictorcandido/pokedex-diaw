@@ -1,14 +1,22 @@
 /* As cores saem de --type-hue e --type-chroma, definidas por tipo em constants/types.js. */
 .type-badge {
-  display: inline-block;
-  padding: 1px 8px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 1px 9px;
   border-radius: 999px;
   font-size: var(--fs-small);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 18px;
   white-space: nowrap;
   background: oklch(var(--type-bg-l) calc(var(--type-chroma) * var(--type-bg-c)) var(--type-hue));
   color: oklch(var(--type-ink-l) calc(var(--type-chroma) * var(--type-ink-c)) var(--type-hue));
+}
+
+/* Multiplicador da aba Tipagem, na mesma tinta do selo para manter o contraste. */
+.type-badge__extra {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .type-badges {

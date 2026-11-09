@@ -2,10 +2,11 @@ import { typeStyle } from '../constants/types.js'
 import '../css/TypeBadge.css'
 
 /** Selo do tipo, com o fundo pálido e a tinta escura do matiz do tipo. */
-export default function TypeBadge({ type }) {
+export default function TypeBadge({ type, extra }) {
   return (
     <span className="type-badge" style={typeStyle(type)}>
       {type}
+      {extra && <span className="type-badge__extra">{extra}</span>}
     </span>
   )
 }

@@ -1,0 +1,128 @@
+.trainer-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  overflow-y: auto;
+  animation: art-in 180ms var(--ease-out);
+}
+
+.trainer-card__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.trainer-card__position {
+  color: var(--screen-muted);
+  font-size: 13px;
+}
+
+.trainer-card__name {
+  font-size: var(--fs-name);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.trainer-card__badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--screen-muted);
+  font-size: 13px;
+}
+
+.trainer-card__pips {
+  display: flex;
+  gap: 3px;
+}
+
+.trainer-card__pip {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bezel-shade);
+}
+
+.trainer-card__pip[data-filled] {
+  background: var(--device);
+}
+
+.trainer-card__team {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.trainer-card__member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 6px 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--cell);
+  color: var(--screen-ink);
+  line-height: 1.25;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08);
+  transition: transform 90ms var(--ease-out), box-shadow 120ms var(--ease-out);
+}
+
+.trainer-card__member:hover {
+  box-shadow: inset 0 0 0 2px var(--key-pressed);
+}
+
+.trainer-card__member:active {
+  transform: scale(0.97);
+}
+
+/* Miniatura maior: o visor do treinador tem espaço de sobra. */
+.trainer-card__member .pokemon-image--sprite {
+  width: 72px;
+  height: 72px;
+  margin: 2px 0 14px; /* o sprite de 96px passa 12px da caixa */
+}
+
+.trainer-card__member .pokemon-image--sprite img {
+  width: 96px;
+  height: 96px;
+}
+
+.trainer-card__member-name {
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.trainer-card__member-id {
+  color: var(--screen-muted);
+  font-size: 11px;
+}
+
+@media (max-width: 599px) {
+  .trainer-card {
+    padding: 10px;
+  }
+
+  .trainer-card__name {
+    font-size: 22px;
+  }
+
+  .trainer-card__member .pokemon-image--sprite {
+    width: 48px;
+    height: 48px;
+  }
+
+  .trainer-card__member .pokemon-image--sprite img {
+    width: 64px;
+    height: 64px;
+  }
+}

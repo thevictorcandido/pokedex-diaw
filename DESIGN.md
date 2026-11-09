@@ -2,74 +2,156 @@
 
 Direção visual da Pokédex (Atividade 03 de DIAW). Vale para todo componente: nenhum valor de cor, fonte ou espaço fica fora dos tokens abaixo.
 
-## 1. O que é a tela
+> Versão 2, de 2026-11-09. A versão 1 era uma tabela ordenável; a pedido de Victor, a interface virou o próprio aparelho. Dados, busca, filtro, ordenação, favoritos e tema continuam os mesmos.
 
-Uma tela de trabalho, não uma página de marketing. A pessoa abre para **achar um Pokémon e ver como ele se compara aos outros**. Essa é a pergunta da tela, e ela decide o que é maior:
+## 1. A ideia
 
-1. A lista dos 151 Pokémon, com os seis atributos lado a lado, é o bloco principal.
-2. A busca e o filtro de tipo ficam sempre à vista, antes da lista.
-3. O detalhe abre por cima da lista, sem trocar de tela, e mostra onde aquele Pokémon fica entre os 151.
+**A tela é a Pokédex.** A pessoa não navega por uma página: ela segura um aparelho vermelho, aberto como um livro, e opera os controles dele. Cada peça do aparelho faz uma coisa de verdade; nenhuma é só enfeite.
 
-**Ideia:** a Pokédex como um catálogo de campo. Cada linha é uma ficha: número, retrato, nome, tipos e os seis atributos em números alinhados. Ordenar por qualquer coluna é o gesto principal, e o detalhe responde "esse é forte?" com a posição no ranking ("Total 534 · 12º de 151"), não com adjetivos.
+- **O visor da esquerda mostra o Pokémon**: um de cada vez, grande, com número, nome e tipos. É onde o olho cai primeiro.
+- **A metade da direita é o painel de consulta**: busca, atributos, filtro por tipo e os modos do aparelho.
+- **Trocar de Pokémon é apertar botão**: direcional, teclado do computador, lista de miniaturas no próprio visor ou o botão de sorteio.
 
-**Rosto do produto:** o vermelho da Pokédex como único matiz forte, só em marcas pequenas (botão principal, item ativo, barras de atributo). As cores dos 17 tipos entram como tons pálidos com tinta escura do mesmo matiz, porque tipo é dado, não decoração.
+A pergunta da tela continua a mesma: **como este Pokémon se compara aos outros?** O painel da direita responde com os seis atributos em barras, a média dos 151 marcada em cada uma e a posição pelo total ("534 · 11º de 151").
 
-## 2. Estilo base
+O aparelho é uma interpretação própria, inspirada na Pokédex vermelha da série: mesma leitura (lente azul, visor à esquerda, painel e teclado à direita), com formas, medidas e funções decididas aqui. Nada de imagem do brinquedo; tudo é desenhado em CSS.
 
-Estilo "escada de um matiz", tirado de telas de catálogo e painel:
+### Referências misturadas (2026-11-09)
 
-- O matiz forte aparece só em marcas pequenas; seus tons pálidos fazem o trabalho de área.
-- Superfícies planas, separadas por um passo de tom ou por linha de 1px. Nenhuma sombra em repouso; sombra só no painel de detalhe, que flutua.
-- Sem gradiente, sem vidro, sem brilho, sem emoji, sem ícone em quadrado colorido.
+O aparelho continua sendo o modelo. Destas duas referências entram só os pontos abaixo, redesenhados no estilo dele:
+
+| Referência | O que entra | Onde |
+|---|---|---|
+| [gabrielayresdev/Pokedex](https://github.com/gabrielayresdev/Pokedex) | Faixa vermelha no topo com uma pergunta grande e anéis concêntricos ao fundo | Topo da página: "Quem é esse Pokémon?", com o aparelho começando sobre a faixa |
+| | Círculo na cor do tipo atrás da arte | Visor e miniaturas da lista |
+| | Barras de atributo em segmentos | Tela azul: 5 segmentos de 51 pontos cada |
+| | Seção de fraquezas | Aba "Tipagem" da tela azul |
+| [Informações da Pokédex (psoul)](https://psoul.gg/wiki/guides/informacoes-da-pokedex/) | Registro do que já foi descoberto, com contador | "Vistos": cada Pokémon aberto no visor fica registrado no navegador; na lista, os não vistos aparecem em silhueta escura, com número e nome |
+| | Relações de tipagem: fraquezas, resistências e imunidades | Aba "Tipagem", calculada pela tabela de tipos da 2ª geração (a do JSON, que tem Steel e Dark e não tem Fairy) |
+| | Lista para escolher o Pokémon e ver os dados ao lado | Grade do visor, já prevista |
+
+Não entram: logotipo oficial, Pokébola em 3D, ícones de tipo da referência, sombra de cartão, dados que o JSON não tem (altura, peso, habilidades).
+
+## 2. Mapa do aparelho
+
+```text
+ ┌────────────── metade esquerda ──────────────┐┃┌────────────── metade direita ──────────────┐
+ │ (◉) lente   ● ● ●  luzes                    │┃│ [ Buscar: nome ou número…            ]  ⟲ │ visor de busca
+ │ ╭─────────────────────────────────────────╮ │┃│ ┌──────────────────────────────────────┐   │
+ │ │ ·  ·                                    │ │┃│ │ Atributos            534 · 11º de 151 │   │ tela de informação
+ │ │ ┌─────────────────────────────────────┐ │ │┃│ │ HP          78 ▓▓▓▓▓░░░░░░░░░░       │   │ (azul-escura)
+ │ │ │                                     │ │ │┃│ │ Ataque      84 ▓▓▓▓▓░░░░░░░░░░       │   │
+ │ │ │        arte oficial do Pokémon      │ │ │┃│ │ …                                     │   │
+ │ │ │                                     │ │ │┃│ │ Na equipe de Ash                      │   │
+ │ │ │ #006  Charizard        Fire Flying  │ │ │┃│ └──────────────────────────────────────┘   │
+ │ │ └─────────────────────────────────────┘ │ │┃│ [Todos][Normal][Fire][Water][Grass][Elec]  │ teclado de tipos
+ │ │ ●                              ≡≡≡      │ │┃│ [Ice][Fight][Poison][Ground][Flying]…     │ (azul-claro)
+ │ ╰─────────────────────────────────────────╯ │┃│ [Pokémon][Treinadores]   ━ ━     (●)      │ modos · favorito · sorteio
+ │ ━━━ ━━━    ┌───────────────┐       ✚       │┃│ [Ordenar: número ▾]   [★ Só favoritos 3]  │ telas inferiores
+ │ lista fav  │ LCD de status │   direcional   │┃│                                            │
+ └──────────────────────────────────────────────┘┃└────────────────────────────────────────────┘
+```
+
+| Peça | Função |
+|---|---|
+| **Lente azul** | Acende por 400ms a cada troca de Pokémon ("identificando") |
+| **Três luzes** | Vermelha: o Pokémon na tela é favorito. Amarela: há busca ou filtro ativo. Verde: a imagem carregou |
+| **Visor (esquerda)** | Modo *um*: arte oficial sobre o fundo pálido do primeiro tipo, com `#006`, nome e selos de tipo. Modo *lista*: grade de miniaturas dos resultados, com rolagem dentro do visor. No modo Treinadores, mostra o treinador: nome, insígnias e equipe |
+| **Botões em pílula** (sob o visor) | "Lista", que alterna entre um Pokémon e a grade de miniaturas, e "Favorito" (estrela) |
+| **LCD verde** | Duas linhas. Em cima, a posição na lista ("4 de 12", "3 resultados para “char”", "Nenhum resultado"); embaixo, o registro ("Vistos 23 de 151") |
+| **Direcional** | ◀ ▶ anterior e próximo na lista atual. ▲ ▼ na grade, sobem e descem uma linha. O centro abre ou fecha a lista |
+| **Visor de busca** (direita, topo) | Campo de busca por nome ou número, filtrando a cada tecla. O botão ⟲ limpa busca e tipo |
+| **Tela de informação** (azul-escura) | Três abas. *Atributos*: barras de 0 a 255 em 5 segmentos, com a média marcada, total e posição. *Tipagem*: fraquezas (×4 e ×2), resistências (×½ e ×¼) e imunidades (×0), em selos de tipo. *Treinadores*: quem tem o Pokémon. No modo Treinadores, a tela lista os 12 treinadores |
+| **Teclado azul** | Filtro por tipo: "Todos" e os 17 tipos do JSON, cada tecla com o ponto da cor do tipo e a contagem. A tecla ativa fica afundada |
+| **Botões brancos** | Modo: Pokémon ou Treinadores |
+| **Botão amarelo redondo** | Sorteia um Pokémon da lista atual |
+| **Telas inferiores** | Ordenação (`<select>`) e o filtro "Só favoritos", com a contagem |
+| **Dobradiça** | Separa as metades; no celular vira a dobra horizontal entre elas |
+
+O tema claro ou escuro troca o ambiente em volta do aparelho e o brilho das telas; o corpo vermelho não muda. A alternância fica no canto da página, fora do aparelho.
+
+### Topo da página
+
+Uma faixa de 260px em vinho (`--band`), com a marca à esquerda, a alternância de tema à direita e, no centro, o título "Quem é esse Pokémon?" (40px/700, branco) com a linha "Os 151 de Kanto, com atributos, tipagem e treinadores" embaixo. Atrás, três anéis concêntricos em `--band-ring`, centrados sob o aparelho. O aparelho começa 120px antes do fim da faixa, como se saísse dela; abaixo, o ambiente (`--room`). No celular, a faixa encolhe para 180px e o título para 28px.
 
 ## 3. Tokens
 
 ```css
 :root {
-  /* superfícies */
-  --ground: #fbf8f7;        /* fundo puxado para o tom mais pálido do vermelho */
-  --surface: #ffffff;
-  --raised: #f4f1f0;
-  --border: #e7e2e0;
-  --rule: #f1edeb;
-  --control: #d6d0cd;
+  /* ambiente (página) */
+  --room: #ece6e0;
+  --room-ink: #2b2420;
+  --room-muted: #6b625c;
 
-  /* texto */
-  --text: #1c1917;
-  --muted: #625b57;
+  /* faixa do topo */
+  --band: #6e0d18;
+  --band-ring: #7f1421;
+  --band-ink: #ffffff;
+  --band-muted: #f3c9cd;
 
-  /* o matiz: vermelho Pokédex */
-  --accent: #c23a2b;
-  --accent-soft: #fdf1ef;
-  --accent-track: #f7dcd7;
-  --accent-ink: #7a1f15;
+  /* corpo do aparelho: tons planos, sem degradê */
+  --device: #c8202f;
+  --device-shade: #a3192a;    /* dobradiça, bordas internas, botão apertado */
+  --device-light: #db3a46;    /* friso de 2px no topo das peças */
+  --device-ink: #ffffff;      /* texto gravado no corpo */
 
-  /* estados */
-  --positive: #247b50;
-  --warning: #92400e;
+  /* moldura do visor */
+  --bezel: #ece8e2;
+  --bezel-shade: #cfc9c1;
 
-  --radius-card: 8px;
-  --radius-control: 6px;
-  --row-height: 56px;
-  --sidebar-width: 232px;
-  --topbar-height: 64px;
-  --gap: 24px;
-  --pad: 24px;
-  --control-height: 36px;
+  /* telas */
+  --screen: #f7f5f1;          /* fundo do visor quando o tipo não pinta */
+  --screen-ink: #1c1917;
+  --info: #17306e;            /* tela azul-escura */
+  --info-raised: #22408a;
+  --info-ink: #eef2ff;
+  --info-muted: #b4c2ea;
+  --info-bar: #ffcf3f;        /* barra de atributo */
+  --info-track: #2c4c9a;
+  --lcd: #a9d86e;
+  --lcd-ink: #1d2e0e;
 
-  --fs-title: 32px;
-  --fs-section: 18px;
-  --fs-kpi: 24px;
+  /* controles */
+  --key: #9fd0f2;
+  --key-ink: #0c2a45;
+  --key-pressed: #6fb3e4;
+  --pill-red: #f06a74;
+  --pill-green: #76c25b;
+  --white-key: #f5f3ef;
+  --white-key-ink: #2b2420;
+  --yellow: #f6c445;
+  --dpad: #2a2422;
+  --dpad-ink: #f5f3ef;
+
+  /* luzes e lente */
+  --lens: #2f8fd8;
+  --lens-glint: #cfeaff;
+  --led-red: #ef4444;
+  --led-yellow: #facc15;
+  --led-green: #4ade80;
+  --led-off: #6b1a22;
+
+  --focus: #ffcf3f;           /* anel de foco: amarelo sobre o vermelho */
+
+  --radius-device: 20px;
+  --radius-screen: 10px;
+  --radius-key: 6px;
+  --gap: 16px;
+
+  --fs-name: 28px;
+  --fs-title: 18px;
   --fs-body: 14px;
   --fs-small: 12px;
 }
 ```
 
-**Tema escuro** (alternância no topo, guardada no navegador, padrão segue o sistema): fundo `#0c0a09`, superfície `#171412`, elevado `#24201d`, linhas `#2e2926`, texto `#f5f2f0`, secundário `#a8a19c`, matiz `#ef6b5b`, tom pálido `#3a1a15`, trilho `#4a2620`. Elevação por luminosidade, sem borda nos cards.
+**Tema escuro:** `--room: #0f0d0c`, `--room-ink: #f2eeea`, `--room-muted: #a39b95`, `--screen: #1c1a18`, `--screen-ink: #f2eeea`, `--info: #0c1c45`, `--info-raised: #142a5e`; o fundo de tipo do visor usa a versão escura (seção abaixo). O aparelho continua vermelho.
+
+**Profundidade sem degradê:** as peças em relevo levam um friso de 2px em `--device-light` no topo e outro em `--device-shade` na base. O aparelho tem a única sombra da página, porque é o único objeto que flutua.
 
 ### Cores dos tipos
 
-Cada tipo tem um fundo pálido (`oklch(94% 0.045 H)`) e uma tinta escura (`oklch(40% 0.11 H)`), com contraste acima de 4,5:1. No tema escuro, invertem: fundo `oklch(30% 0.06 H)` e tinta `oklch(88% 0.08 H)`.
+Mesma regra da versão 1. Cada tipo tem um fundo pálido (`oklch(94% 0.045 H)`) e uma tinta escura (`oklch(40% 0.11 H)`), com contraste acima de 4,5:1; no tema escuro, `oklch(30% 0.06 H)` e `oklch(88% 0.08 H)`. O fundo pálido do primeiro tipo pinta o visor atrás da arte.
 
 | Tipo | Matiz H | Tipo | Matiz H |
 |---|---|---|---|
@@ -83,89 +165,60 @@ Cada tipo tem um fundo pálido (`oklch(94% 0.045 H)`) e uma tinta escura (`oklch
 | Poison | 320 | Typeless | cinza neutro |
 | Ground | 65 | Flying | 260 |
 
-O Mew vem sem tipo no JSON; ele aparece como `Typeless`, o tipo de id 0 do próprio arquivo.
+O Mew vem sem tipo no JSON; ele aparece como `Typeless`, o tipo de id 0 do próprio arquivo, e a aba Tipagem diz "Sem tipo: nenhuma relação de tipagem".
+
+No visor, o fundo é o tom pálido do primeiro tipo e, atrás da arte, um círculo de 72% da altura no tom um passo mais forte (`oklch(88% 0.07 H)`; no escuro, `oklch(36% 0.07 H)`). As miniaturas da lista repetem o círculo em pequeno.
 
 ## 4. Tipografia
 
-- **DM Sans**, instalada pelo pacote `@fontsource-variable/dm-sans` (sem CDN externo). Pesos 400, 500, 600 e 700.
-- Tamanhos: título 32px/700 · seção 18px/600 · número em destaque 24px/600 · corpo 14px · pequeno 12px.
-- `font-variant-numeric: tabular-nums` em toda coluna de número, no total e no ranking.
-- Caixa de frase em tudo. Nada de rótulo em maiúsculas espaçadas.
-- Número do Pokémon com três dígitos (`#025`), na mesma fonte, cor secundária.
+- **DM Sans**, pelo pacote `@fontsource-variable/dm-sans` (sem CDN). Pesos 400 a 700.
+- Nome no visor: 28px/700. Títulos das telas: 18px/600. Corpo: 14px. Teclas e LCD: 12px a 13px/600.
+- `font-variant-numeric: tabular-nums` em número, atributo, total, posição e contagem.
+- Caixa de frase. Sem maiúsculas espaçadas, sem fonte monoespaçada.
 
-## 5. Estrutura da tela
+## 5. Tamanhos e faixas
 
-```text
-┌──────────────┬───────────────────────────────────────────────────────┐
-│ ● Pokédex    │  [ Buscar por nome ou número…          ]  Aleatório ◐ │  barra superior 64px
-│   Kanto      ├───────────────────────────────────────────────────────┤
-│              │  Pokémon                                              │  título 32px
-│ Pokémon  151 │  151 de Kanto · 14 do tipo Grass                      │  linha de achado
-│ Treinadores12│                                                       │
-│ Favoritos  3 │  № ▾  Pokémon        Tipos      HP Atq Def AtE DfE Vel Total ★ │
-│              │  #001 [img] Bulbasaur Grass Poison 45  49  49  65  65  45  318  ☆ │
-│ Tipos        │  #002 [img] Ivysaur   …                                │
-│  Todos   151 │  …                                                    │
-│  Water    32 │                                                       │
-│  Poison   33 │                                                       │
-│  …           │                                                       │
-└──────────────┴───────────────────────────────────────────────────────┘
-```
-
-- **Barra lateral** (232px): marca desenhada (círculo dividido, em CSS), navegação entre Pokémon, Treinadores e Favoritos com contagem, e a lista de tipos com a contagem de cada um. O tipo escolhido fica com o fundo pálido do matiz e o texto em `--accent-ink`. Os tipos e as contagens vêm do JSON.
-- **Barra superior**: busca (nome ou número, filtra a cada tecla), botão "Aleatório" e alternância de tema.
-- **Lista**: tabela de verdade (`<table>`), sem card em volta. Cabeçalho em cinza 12px, sem fundo. Linhas de 56px com retrato de 40px. Números alinhados à direita. Clicar no cabeçalho ordena a coluna; clicar de novo inverte. A linha inteira abre o detalhe e é alcançável pelo teclado.
-- **Linha de achado** abaixo do título: diz o que está na tela ("151 de Kanto", "14 do tipo Grass", "3 resultados para 'char'").
-
-## 6. Detalhe do Pokémon
-
-Painel lateral de 440px à direita (folha inferior no celular), feito com `<dialog>` para ter foco preso, `Esc` e fundo inerte.
-
-1. Cabeçalho: arte oficial grande (240px) sobre fundo pálido do primeiro tipo, `#025`, nome em 32px, selos de tipo, botão de favorito.
-2. Total e posição: "Total 320 · 112º de 151".
-3. Seis barras de atributo, escala fixa de 0 a 255, com o valor ao lado. A barra usa `--accent` sobre `--accent-track`. Um traço fino marca a média dos 151 em cada atributo.
-4. Treinadores que têm este Pokémon, vindos das relações do JSON ("Com Ash e Gary").
-5. Navegação anterior e próximo, respeitando a lista filtrada.
-
-## 7. Treinadores
-
-Lista com uma linha por treinador: nome, insígnias em número e em marcas (preenchidas até o total) e a equipe como retratos de 40px. Clicar num retrato abre o mesmo detalhe. Pokémon repetidos na equipe (Koga com três Venonat, Lance com dois Dragonite) aparecem como estão no JSON.
-
-## 8. Estados
-
-- **Vazio:** "Nenhum Pokémon encontrado para 'xyz' no tipo Fire", com botão "Limpar filtros". A tabela mantém o cabeçalho.
-- **Imagem que falha:** o retrato vira um círculo com as iniciais em tom pálido do tipo. A Pokédex funciona inteira sem a PokéAPI.
-- **Favoritos vazio:** "Nenhum favorito ainda. Toque na estrela de um Pokémon para guardá-lo aqui."
-- **Foco visível** em toda linha, botão e campo: anel de 2px em `--accent` com 2px de afastamento.
-
-## 9. Tablet e celular
-
-Três faixas, medidas na verificação (a tabela completa precisa de cerca de 800px e passava da tela em 768px):
-
-| Largura | O que muda |
+| Largura | Aparelho |
 |---|---|
-| até 1179px | A barra lateral vira barra inferior com três destinos (Pokémon, Treinadores, Favoritos); o filtro de tipo vira uma fileira de selos com rolagem horizontal, acima da lista |
-| até 899px | A tabela vira itens: `#025`, nome e total na primeira linha, tipos na segunda e os seis atributos em 13px numa grade de 3 colunas (tablet) ou 2 colunas (abaixo de 600px). A ordenação passa para um `<select>` ("Ordenar por") |
-| até 767px | O detalhe vira folha que sobe do pé da tela; os botões do topo ficam só com ícone |
+| 1100px ou mais | Aberto na horizontal: duas metades de até 560px lado a lado, com a dobradiça de 18px entre elas, centrado na página |
+| 900px a 1099px | Igual, com as metades encolhendo; o visor guarda a proporção de 4:3 |
+| até 899px | Aberto na vertical: metade do visor em cima, painel embaixo, dobradiça horizontal. Largura total menos 16px de cada lado |
+| até 599px | Teclado de tipos em 3 colunas; direcional e botões com 44px no mínimo |
 
-- Alvos de toque com no mínimo 44px quando o ponteiro é de toque (`pointer: coarse`).
+A página não rola na horizontal em nenhuma largura. Em 1440×900 o visor e a tela azul aparecem inteiros sem rolar; só o pé do aparelho pode ficar abaixo da dobra.
 
-## 10. Movimento
+## 6. Interação
 
-- Painel de detalhe entra deslizando 24px e com opacidade, em 200ms, `cubic-bezier(0.2, 0, 0, 1)`.
-- Barras de atributo crescem da esquerda ao abrir, 320ms, escalonadas em 30ms.
-- Linha: fundo `--raised` no hover, em 120ms.
-- Com `prefers-reduced-motion: reduce`, tudo aparece sem deslocamento.
+- **Teclado do computador:** ◀ ▶ trocam de Pokémon e ▲ ▼ andam na grade quando o foco não está num campo. `L` abre e fecha a lista, e `Esc` fecha a lista. Todas as peças são botões de verdade, com nome acessível ("Próximo Pokémon", "Filtrar por Fire").
+- **Lista no visor:** grade de miniaturas de 4 colunas (3 no celular), com o número embaixo. A atual fica marcada com anel amarelo. Clicar escolhe o Pokémon e volta ao modo *um*.
+- **Busca e filtro** mudam a lista atual. Se o Pokémon na tela sair da lista, o visor passa para o primeiro resultado.
+- **Treinadores:** o visor mostra um treinador por vez, e ◀ ▶ passam para o próximo. A tela azul lista os 12; clicar num deles o leva ao visor. Clicar num Pokémon da equipe volta ao modo Pokémon, já nele.
+- **Vistos:** abrir um Pokémon no visor o registra (no `localStorage`). A lista mostra os não vistos como silhueta escura, com número e nome legíveis; ao abrir, a cor aparece. O botão ⟲ não apaga o registro; "Zerar vistos" fica no fim da aba Atributos, com confirmação.
+- **Leitores de tela:** o LCD é `aria-live="polite"`; o visor tem um título oculto com "Charizard, número 6, tipos Fire e Flying".
 
-## 11. Imagens
+## 7. Estados
 
-Arte oficial e retratos da PokéAPI, servidos pelo repositório público de sprites:
+- **Sem resultado:** o visor mostra "Nenhum Pokémon encontrado" e "Busca “xyz” no tipo Fire", com o botão "Limpar" em destaque; o LCD diz "Nenhum resultado".
+- **Favoritos vazio:** "Nenhum favorito ainda. Use a estrela sob o visor para guardar um Pokémon."
+- **Imagem que falha:** iniciais grandes no tom do tipo; a luz verde fica apagada.
+- **Foco visível:** anel de 2px em `--focus` (amarelo), com 2px de afastamento, legível sobre o vermelho e sobre as telas.
 
-- Retrato da lista: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png`
-- Arte do detalhe: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{id}.png`
+## 8. Movimento
 
-Imagens com `loading="lazy"`, largura e altura fixas (sem salto de layout) e `alt` com o nome. Fonte citada no README. Pokémon é marca da Nintendo, Game Freak e Creatures; uso só acadêmico.
+- Troca de Pokémon: a arte entra subindo 12px com opacidade, em 180ms; a lente acende por 400ms.
+- Barras de atributo crescem da esquerda em 320ms, escalonadas em 30ms.
+- Teclas e botões afundam 2px ao apertar (o friso inferior some).
+- Com `prefers-reduced-motion: reduce`, tudo troca sem deslocamento e a lente só muda de cor.
 
-## 12. O que não entra
+## 9. Imagens
 
-Card por Pokémon em grade, gradiente, sombra em repouso, ícone em quadrado colorido, rótulo pequeno acima do título, emoji na interface, fonte monoespaçada, violeta como cor da interface.
+Arte oficial e miniaturas da PokéAPI, servidas pelo repositório público de sprites:
+
+- Miniatura da lista e da equipe: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png`
+- Arte do visor: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{id}.png`
+
+Largura e altura fixas (sem salto de layout), `alt` com o nome e `loading="lazy"` nas miniaturas. Fonte citada no README. Pokémon é marca da Nintendo, da Game Freak e da Creatures; uso só acadêmico.
+
+## 10. O que não entra
+
+Tabela, grade de cards fora do visor, degradê, brilho, vidro, foto ou imagem do brinquedo, emoji, fonte monoespaçada, peça decorativa sem função.

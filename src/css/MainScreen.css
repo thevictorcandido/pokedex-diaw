@@ -1,0 +1,81 @@
+.bezel {
+  position: relative;
+  padding: 14px 22px 34px;
+  border-radius: var(--radius-screen) var(--radius-screen) var(--radius-screen) 36px;
+  background: var(--bezel);
+  box-shadow: inset 0 -3px 0 var(--bezel-shade);
+}
+
+.bezel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.bezel__dots span,
+.bezel__dot {
+  border-radius: 50%;
+  background: var(--device);
+}
+
+.bezel__dots span {
+  width: 7px;
+  height: 7px;
+}
+
+.bezel__dot {
+  position: absolute;
+  left: 22px;
+  bottom: 9px;
+  width: 16px;
+  height: 16px;
+}
+
+.bezel__speaker {
+  position: absolute;
+  right: 22px;
+  bottom: 10px;
+  display: grid;
+  gap: 3px;
+}
+
+.bezel__speaker span {
+  width: 30px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--bezel-shade);
+}
+
+/* A tela: 4:3, pintada pelo tom pálido do tipo quando há um Pokémon. */
+.screen {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--screen);
+  color: var(--screen-ink);
+  box-shadow: inset 0 0 0 2px rgb(0 0 0 / 0.1);
+}
+
+.screen[style*='--type-hue'] {
+  background: oklch(var(--type-bg-l) calc(var(--type-chroma) * var(--type-bg-c)) var(--type-hue));
+}
+
+@media (max-width: 599px) {
+  .bezel {
+    padding: 12px 14px 30px;
+    border-bottom-left-radius: 28px;
+  }
+
+  .bezel__dot {
+    left: 16px;
+    bottom: 8px;
+    width: 13px;
+    height: 13px;
+  }
+
+  .bezel__speaker {
+    right: 16px;
+  }
+}

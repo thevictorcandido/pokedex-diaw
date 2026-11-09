@@ -1,79 +1,48 @@
-import { STATS } from '../constants/stats.js'
-import Icon from './Icon.jsx'
-import PokemonCard from './PokemonCard.jsx'
+import { memo, useEffect, useRef } from 'react'
+import { typeStyle } from '../constants/types.js'
+import { formatId } from '../utils/format.js'
+import PokemonImage from './PokemonImage.jsx'
 import '../css/PokemonList.css'
 
-const COLUMNS = [
-  { key: 'id', label: '№', title: 'Número', align: 'left' },
-  { key: 'name', label: 'Pokémon', title: 'Nome', align: 'left' },
-  { key: 'types', label: 'Tipos', align: 'left', sortable: false, wide: true },
-  ...STATS.map(({ key, short, label }) => ({ key, label: short, title: label, wide: true })),
-  { key: 'total', label: 'Total', title: 'Total dos atributos' },
-]
-
-function SortableHeader({ column, sort, onSort }) {
-  const active = sort.key === column.key
-  const ariaSort = active ? (sort.direction === 'asc' ? 'ascending' : 'descending') : undefined
-  const className = [
-    'pokemon-list__head',
-    column.align === 'left' && 'pokemon-list__head--left',
-    column.wide && 'pokemon-list__wide',
-  ]
-    .filter(Boolean)
-    .join(' ')
-
-  if (column.sortable === false) {
-    return (
-      <th scope="col" className={className}>
-        {column.label}
-      </th>
-    )
-  }
-
+/** Uma miniatura da grade. memo: a grade tem até 151 itens. */
+const ListItem = memo(function ListItem({ pokemon, current, seen, onSelect }) {
   return (
-    <th scope="col" className={className} aria-sort={ariaSort}>
+    <li>
       <button
         type="button"
-        className="pokemon-list__sort"
-        title={`Ordenar por ${column.title.toLowerCase()}`}
-        onClick={() => onSort(column.key)}
+        className="pokemon-list__item"
+        style={typeStyle(pokemon.types[0])}
+        aria-current={current || undefined}
+        data-unseen={!seen || undefined}
+        onClick={() => onSelect(pokemon.id)}
       >
-        {column.label !== column.title ? <abbr title={column.title}>{column.label}</abbr> : column.label}
-        <span className="pokemon-list__arrow" aria-hidden="true">
-          {active && <Icon name={sort.direction === 'asc' ? 'up' : 'down'} />}
+        <span className="pokemon-list__disc">
+          <PokemonImage pokemon={pokemon} decorative silhouette={!seen} />
         </span>
+        <span className="pokemon-list__id tabular">{formatId(pokemon.id)}</span>
+        <span className="pokemon-list__name">{pokemon.name}</span>
+        {!seen && <span className="visually-hidden">(ainda não visto)</span>}
       </button>
-    </th>
+    </li>
   )
-}
+})
 
-/** Tabela dos Pokémon: cabeçalhos ordenáveis e uma linha (PokemonCard) por Pokémon. */
-export default function PokemonList({ pokemon, sort, onSort, onSelect, selectedId, favorites, onToggleFavorite, caption }) {
+/**
+ * Lista dentro do visor: grade de miniaturas da lista atual. Os ainda não vistos
+ * aparecem em silhueta; o atual fica marcado e sempre à vista.
+ */
+export default function PokemonList({ pokemon, currentId, seen, onSelect }) {
+  const listRef = useRef(null)
+
+  useEffect(() => {
+    listRef.current?.querySelector('[aria-current]')?.scrollIntoView({ block: 'nearest' })
+  }, [currentId])
+
   return (
-    <table className="pokemon-list">
-      <caption className="visually-hidden">{caption}</caption>
-      <thead>
-        <tr>
-          {COLUMNS.map((column) => (
-            <SortableHeader key={column.key} column={column} sort={sort} onSort={onSort} />
-          ))}
-          <th scope="col" className="pokemon-list__head">
-            <span className="visually-hidden">Favorito</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {pokemon.map((p) => (
-          <PokemonCard
-            key={p.id}
-            pokemon={p}
-            selected={p.id === selectedId}
-            favorite={favorites.has(p.id)}
-            onSelect={onSelect}
-            onToggleFavorite={onToggleFavorite}
-          />
-        ))}
-      </tbody>
-    </table>
+    <ul ref={listRef} className="pokemon-list" aria-label="Lista de Pokémon">
+      {pokemon.map((p) => (
+        <ListItem key={p.id} pokemon={p} current={p.id === currentId} seen={seen.has(p.id)} onSelect={onSelect} />
+      ))}
+    </ul>
   )
 }

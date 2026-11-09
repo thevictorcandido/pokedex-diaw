@@ -1,30 +1,19 @@
-import { SORT_FIELDS } from '../constants/stats.js'
-
 /**
- * Linha que diz o que está na tela, logo abaixo do título.
- * Ex.: "151 Pokémon de Kanto", "12 do tipo Fire", "1 resultado para “char” no tipo Flying".
+ * Textos curtos do LCD verde: onde a pessoa está na lista e o que está filtrando.
+ * Ex.: "4 de 12 · Fire", "1 de 3 · “char”", "Nenhum resultado".
  */
-export function describeResults({ count, query, type, sort, scope = 'de Kanto' }) {
+export function describePosition({ index, count, query = '', type = null, favoritesOnly = false }) {
+  if (count === 0) return 'Nenhum resultado'
+  const parts = [`${index + 1} de ${count}`]
   const q = query.trim()
-  let text
-
-  if (q) {
-    text = `${count} ${count === 1 ? 'resultado' : 'resultados'} para “${q}”${type ? ` no tipo ${type}` : ''}`
-  } else if (type) {
-    text = `${count} do tipo ${type}`
-  } else {
-    text = `${count} Pokémon ${scope}`
-  }
-
-  return `${text}${describeSort(sort)}`
+  if (q) parts.push(`“${q}”`)
+  if (type) parts.push(type)
+  if (favoritesOnly) parts.push('favoritos')
+  return parts.join(' · ')
 }
 
-export function describeSort({ key, direction }) {
-  if (key === 'id' && direction === 'asc') return ''
-  const label = SORT_FIELDS.find((field) => field.key === key)?.label.toLowerCase() ?? key
-  if (key === 'id') return ' · do maior número para o menor'
-  if (key === 'name') return direction === 'asc' ? ' · por nome, de A a Z' : ' · por nome, de Z a A'
-  return ` · por ${label}, ${direction === 'desc' ? 'do maior para o menor' : 'do menor para o maior'}`
+export function describeSeen(seenCount, total) {
+  return `Vistos ${seenCount} de ${total}`
 }
 
 /** Anterior e próximo de um id numa lista de ids. */

@@ -1,0 +1,112 @@
+.device-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.lens {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--bezel);
+  box-shadow: 0 3px 0 var(--device-shade);
+}
+
+.lens__glass {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--lens);
+  box-shadow: inset 0 0 0 3px var(--lens-rim);
+  animation: lens-scan 400ms var(--ease-out);
+}
+
+/* Reflexo: um círculo claro chapado, sem degradê. */
+.lens__glass::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 10px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--lens-glint);
+}
+
+@keyframes lens-scan {
+  0%,
+  60% {
+    background: var(--lens-lit);
+  }
+}
+
+.leds {
+  display: flex;
+  gap: 8px;
+  padding: 6px 0 0;
+  list-style: none;
+}
+
+.led {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--led-off);
+  box-shadow: inset 0 0 0 2px rgb(0 0 0 / 0.2);
+  transition: background-color 160ms var(--ease-out);
+}
+
+.led--red[data-on] {
+  background: var(--led-red);
+}
+
+.led--yellow[data-on] {
+  background: var(--led-yellow);
+}
+
+.led--green[data-on] {
+  background: var(--led-green);
+}
+
+.device-top__brand {
+  margin-left: auto;
+  color: var(--device-ink);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: right;
+}
+
+.device-top__brand span {
+  display: block;
+  font-size: var(--fs-small);
+  font-weight: 500;
+}
+
+@media (max-width: 599px) {
+  .device-top {
+    margin-bottom: 14px;
+  }
+
+  .lens {
+    width: 52px;
+    height: 52px;
+  }
+
+  .lens__glass {
+    width: 38px;
+    height: 38px;
+  }
+
+  .lens__glass::after {
+    top: 7px;
+    left: 8px;
+    width: 11px;
+    height: 11px;
+  }
+}
