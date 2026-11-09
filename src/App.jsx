@@ -94,7 +94,7 @@ export default function App() {
             value: query,
             onChange: setQuery,
             label: isTrainers ? 'Buscar treinador ou Pokémon' : 'Buscar Pokémon por nome ou número',
-            placeholder: isTrainers ? 'Buscar treinador ou Pokémon…' : 'Buscar por nome ou número…',
+            placeholder: isTrainers ? 'Treinador ou Pokémon…' : 'Nome ou número…',
           }}
           onRandom={openRandom}
           theme={theme}

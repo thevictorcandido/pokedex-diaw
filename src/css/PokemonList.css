@@ -110,10 +110,11 @@
   text-align: left !important;
 }
 
+/* O sprite passa 8px da caixa de 40px de cada lado, então o vão visível é gap - 8px. */
 .pokemon-card__who {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 20px;
 }
 
 .pokemon-card__text {

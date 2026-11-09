@@ -16,11 +16,10 @@ export function useTheme() {
   }, [theme])
 
   function toggleTheme() {
-    setTheme((current) => {
-      const next = current === 'dark' ? 'light' : 'dark'
-      writeStorage(KEY, next)
-      return next
-    })
+    const next = theme === 'dark' ? 'light' : 'dark'
+    setTheme(next)
+    // Só a escolha explícita fica salva; sem ela, o tema acompanha o sistema.
+    writeStorage(KEY, next)
   }
 
   return { theme, toggleTheme }

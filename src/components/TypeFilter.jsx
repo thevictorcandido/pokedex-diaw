@@ -10,9 +10,9 @@ export default function TypeFilter({ types, total, value, onChange, layout = 'co
 
   return (
     <div className={`type-filter type-filter--${layout}`} role="group" aria-labelledby={`type-filter-${layout}`}>
-      <h2 className="type-filter__title" id={`type-filter-${layout}`}>
+      <p className="type-filter__title" id={`type-filter-${layout}`}>
         Tipos
-      </h2>
+      </p>
       <ul className="type-filter__list">
         {options.map((option) => {
           const selected = value === option.name
