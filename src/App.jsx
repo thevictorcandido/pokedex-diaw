@@ -16,6 +16,7 @@ import MainScreen from './components/MainScreen.jsx'
 import PokemonCard from './components/PokemonCard.jsx'
 import PokemonList from './components/PokemonList.jsx'
 import TrainerCard from './components/TrainerCard.jsx'
+import TrainerGrid from './components/TrainerGrid.jsx'
 import EmptyState from './components/EmptyState.jsx'
 import StatusLcd from './components/StatusLcd.jsx'
 import DPad from './components/DPad.jsx'
@@ -45,7 +46,7 @@ export default function App() {
   const { theme, toggleTheme } = useTheme()
   const { favorites, toggleFavorite } = useFavorites()
   const { seen, markSeen, resetSeen } = useSeen()
-  const columns = useMediaQuery('(max-width: 599px)') ? 3 : 4
+  const phone = useMediaQuery('(max-width: 599px)')
 
   const source = useMemo(
     () => (favoritesOnly ? pokedex.pokemon.filter((p) => favorites.has(p.id)) : pokedex.pokemon),
@@ -89,11 +90,23 @@ export default function App() {
     setQuery('')
     setTrainerId(id)
     setMode('trainers')
+    setListOpen(false)
+  }
+
+  function selectTrainer(id) {
+    setTrainerId(id)
+    setListOpen(false)
+  }
+
+  /** Treinadores abre com os 12 no visor; Pokémon volta para um de cada vez. */
+  function changeMode(next) {
+    setMode(next)
+    setListOpen(next === 'trainers')
   }
 
   function changeType(next) {
     setType(next)
-    setMode('pokemon')
+    if (!isPokemon) changeMode('pokemon')
   }
 
   function openRandom() {
@@ -115,12 +128,15 @@ export default function App() {
     const target = trainers[trainerIndex + delta]
     return target ? () => setTrainerId(target.id) : null
   }
+  // Colunas da grade no visor, para ▲ ▼ pularem uma linha.
+  const columns = isPokemon ? (phone ? 3 : 4) : phone ? 1 : 2
+  const hasItems = isPokemon ? visible.length > 0 : trainers.length > 0
   const dpad = {
     onLeft: moveBy(-1),
     onRight: moveBy(1),
-    onUp: isPokemon && listOpen ? moveBy(-columns) : null,
-    onDown: isPokemon && listOpen ? moveBy(columns) : null,
-    onCenter: isPokemon && visible.length > 0 ? () => setListOpen((open) => !open) : null,
+    onUp: listOpen ? moveBy(-columns) : null,
+    onDown: listOpen ? moveBy(columns) : null,
+    onCenter: hasItems ? () => setListOpen((open) => !open) : null,
   }
 
   // Teclado do computador: setas = direcional, L = lista, Esc = fecha a lista.
@@ -156,17 +172,23 @@ export default function App() {
         primary: describePosition({ index, count: visible.length, query, type, favoritesOnly }),
         secondary: describeSeen(seen.size, TOTAL),
       }
-    : {
-        primary: trainer
-          ? `${trainerIndex + 1} de ${pluralize(trainers.length, 'treinador', 'treinadores')}`
-          : 'Nenhum treinador',
-        secondary: trainer
-          ? `${pluralize(trainer.badges, 'insígnia', 'insígnias')} · ${trainer.team.length} na equipe`
-          : 'Limpe a busca para ver todos',
-      }
+    : !trainer
+      ? { primary: 'Nenhum treinador', secondary: 'Limpe a busca para ver todos' }
+      : listOpen
+        ? {
+            primary: `${pluralize(trainers.length, 'treinador', 'treinadores')}${query.trim() ? ` · “${query.trim()}”` : ''}`,
+            secondary: 'Escolha um para ver a equipe',
+          }
+        : {
+            primary: `${trainerIndex + 1} de ${pluralize(trainers.length, 'treinador', 'treinadores')}`,
+            secondary: `${pluralize(trainer.badges, 'insígnia', 'insígnias')} · ${trainer.team.length} na equipe`,
+          }
 
   function renderScreen() {
     if (!isPokemon) {
+      if (trainer && listOpen) {
+        return <TrainerGrid trainers={trainers} currentId={trainer.id} onSelect={selectTrainer} />
+      }
       return trainer ? (
         <TrainerCard
           key={trainer.id}
@@ -217,7 +239,13 @@ export default function App() {
   }
 
   const screenStyle = isPokemon && !listOpen && current ? typeStyle(current.types[0]) : undefined
-  const screenLabel = isPokemon ? (listOpen ? 'Lista de Pokémon' : 'Pokémon no visor') : 'Treinador no visor'
+  const screenLabel = isPokemon
+    ? listOpen
+      ? 'Lista de Pokémon'
+      : 'Pokémon no visor'
+    : listOpen
+      ? 'Lista de treinadores'
+      : 'Treinador no visor'
   const nextTheme = theme === 'dark' ? 'claro' : 'escuro'
 
   return (
@@ -260,7 +288,8 @@ export default function App() {
                 onToggleList={() => setListOpen((open) => !open)}
                 favorite={Boolean(current) && favorites.has(current.id)}
                 onToggleFavorite={() => current && toggleFavorite(current.id)}
-                disabled={!isPokemon || !current}
+                listDisabled={!hasItems}
+                favoriteDisabled={!isPokemon || !current}
                 name={current?.name}
               />
               <StatusLcd {...lcd} />
@@ -271,7 +300,7 @@ export default function App() {
                   right: isPokemon ? 'Próximo Pokémon' : 'Próximo treinador',
                   up: 'Linha de cima',
                   down: 'Linha de baixo',
-                  center: listOpen ? 'Fechar a lista' : 'Abrir a lista',
+                  center: listOpen ? 'Fechar a lista' : isPokemon ? 'Abrir a lista' : 'Ver todos os treinadores',
                 }}
               />
             </div>
@@ -310,14 +339,14 @@ export default function App() {
               </InfoScreen>
             ) : (
               <InfoScreen label="Lista de treinadores">
-                <TrainerList trainers={trainers} currentId={trainer?.id} onSelect={setTrainerId} />
+                <TrainerList trainers={trainers} currentId={trainer?.id} onSelect={selectTrainer} />
               </InfoScreen>
             )}
 
             <TypeFilter types={pokedex.types} total={TOTAL} value={type} onChange={changeType} />
 
             <div className="panel-row">
-              <ModeSwitch mode={mode} onChange={setMode} />
+              <ModeSwitch mode={mode} onChange={changeMode} />
               <RandomButton onClick={openRandom} />
             </div>
 

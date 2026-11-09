@@ -37,14 +37,14 @@ export function RandomButton({ onClick }) {
 }
 
 /** Pílulas sob o visor: lista e favorito. */
-export function ScreenPills({ listOpen, onToggleList, favorite, onToggleFavorite, disabled, name }) {
+export function ScreenPills({ listOpen, onToggleList, favorite, onToggleFavorite, listDisabled, favoriteDisabled, name }) {
   return (
     <div className="screen-pills">
       <button
         type="button"
         className="screen-pill screen-pill--red press"
         aria-pressed={listOpen}
-        disabled={disabled}
+        disabled={listDisabled}
         onClick={onToggleList}
         title="Abrir ou fechar a lista (L)"
       >
@@ -56,7 +56,7 @@ export function ScreenPills({ listOpen, onToggleList, favorite, onToggleFavorite
         className="screen-pill screen-pill--green press"
         aria-pressed={favorite}
         aria-label={name ? `Favoritar ${name}` : 'Favoritar'}
-        disabled={disabled || !name}
+        disabled={favoriteDisabled || !name}
         onClick={onToggleFavorite}
       >
         <Icon name="star" filled={favorite} />

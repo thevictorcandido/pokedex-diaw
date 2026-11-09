@@ -56,7 +56,7 @@ Não entram: logotipo oficial, Pokébola em 3D, ícones de tipo da referência, 
 |---|---|
 | **Lente azul** | Acende por 400ms a cada troca de Pokémon ("identificando") |
 | **Três luzes** | Vermelha: o Pokémon na tela é favorito. Amarela: há busca ou filtro ativo. Verde: a imagem carregou |
-| **Visor (esquerda)** | Modo *um*: arte oficial sobre o fundo pálido do primeiro tipo, com `#006`, nome e selos de tipo. Modo *lista*: grade de miniaturas dos resultados, com rolagem dentro do visor. No modo Treinadores, mostra o treinador: nome, insígnias e equipe |
+| **Visor (esquerda)** | Modo *um*: arte oficial sobre o fundo pálido do primeiro tipo, com `#006`, nome e selos de tipo. Modo *lista*: grade de miniaturas dos resultados, com rolagem dentro do visor. No modo Treinadores, abre com a lista dos 12 (nome, insígnias e equipe em miniatura); escolher um mostra a ficha dele, com a equipe grande |
 | **Botões em pílula** (sob o visor) | "Lista", que alterna entre um Pokémon e a grade de miniaturas, e "Favorito" (estrela) |
 | **LCD verde** | Duas linhas. Em cima, a posição na lista ("4 de 12", "3 resultados para “char”", "Nenhum resultado"); embaixo, o registro ("Vistos 23 de 151") |
 | **Direcional** | ◀ ▶ anterior e próximo na lista atual. ▲ ▼ na grade, sobem e descem uma linha. O centro abre ou fecha a lista |
@@ -192,7 +192,7 @@ A página não rola na horizontal em nenhuma largura. Em 1440×900 o visor e a t
 - **Teclado do computador:** ◀ ▶ trocam de Pokémon e ▲ ▼ andam na grade quando o foco não está num campo. `L` abre e fecha a lista, e `Esc` fecha a lista. Todas as peças são botões de verdade, com nome acessível ("Próximo Pokémon", "Filtrar por Fire").
 - **Lista no visor:** grade de miniaturas de 4 colunas (3 no celular), com o número embaixo. A atual fica marcada com anel amarelo. Clicar escolhe o Pokémon e volta ao modo *um*.
 - **Busca e filtro** mudam a lista atual. Se o Pokémon na tela sair da lista, o visor passa para o primeiro resultado.
-- **Treinadores:** o visor mostra um treinador por vez, e ◀ ▶ passam para o próximo. A tela azul lista os 12; clicar num deles o leva ao visor. Clicar num Pokémon da equipe volta ao modo Pokémon, já nele.
+- **Treinadores:** o modo abre com os 12 no visor, em duas colunas (uma no celular). Escolher um mostra a ficha dele, e ◀ ▶ passam para o próximo; "Lista" ou o centro do direcional voltam aos 12. A tela azul lista os 12; clicar num deles o leva ao visor. Clicar num Pokémon da equipe volta ao modo Pokémon, já nele.
 - **Vistos:** abrir um Pokémon no visor o registra (no `localStorage`). A lista mostra os não vistos como silhueta escura, com número e nome legíveis; ao abrir, a cor aparece. O botão ⟲ não apaga o registro; "Zerar vistos" fica no fim da aba Atributos, com confirmação.
 - **Leitores de tela:** o LCD é `aria-live="polite"`; o visor tem um título oculto com "Charizard, número 6, tipos Fire e Flying".
 

@@ -1,0 +1,84 @@
+/* Os 12 treinadores no visor, em duas colunas, com rolagem dentro da tela. */
+.trainer-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-content: start;
+  gap: 8px;
+  padding: 10px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  background: var(--screen);
+  scrollbar-width: thin;
+}
+
+.trainer-grid__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 8px 10px 4px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--cell);
+  color: var(--screen-ink);
+  text-align: left;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08);
+  transition: transform 90ms var(--ease-out), box-shadow 120ms var(--ease-out);
+}
+
+.trainer-grid__item:hover {
+  box-shadow: inset 0 0 0 2px var(--key-pressed);
+}
+
+.trainer-grid__item:active {
+  transform: scale(0.98);
+}
+
+.trainer-grid__item[aria-current] {
+  box-shadow: inset 0 0 0 3px var(--yellow);
+}
+
+.trainer-grid__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.trainer-grid__name {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.trainer-grid__badges {
+  color: var(--screen-muted);
+  font-size: var(--fs-small);
+  white-space: nowrap;
+}
+
+/* Equipe em miniatura: sprites de 40px numa caixa de 30px. */
+.trainer-grid__team {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 32px;
+}
+
+.trainer-grid__team .pokemon-image--sprite {
+  width: 30px;
+  height: 32px;
+}
+
+.trainer-grid__team .pokemon-image--sprite img {
+  width: 40px;
+  height: 40px;
+}
+
+@media (max-width: 599px) {
+  .trainer-grid {
+    grid-template-columns: 1fr;
+    padding: 8px;
+  }
+}

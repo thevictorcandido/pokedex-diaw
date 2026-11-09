@@ -63,7 +63,7 @@ A identidade visual foi definida antes do código, no [`DESIGN.md`](DESIGN.md). 
 - 🔎 **Busca a cada tecla** por nome (`bulba`) ou número (`25`, `#25` ou `025`).
 - 🧬 **Filtro por tipo** no teclado azul, com os tipos e as contagens tirados do JSON.
 - 📄 **Detalhes** na tela azul: barras dos seis atributos, total e posição entre os 151.
-- 🧑‍🚀 **Treinadores**: no modo Treinadores, o visor mostra nome, insígnias e equipe. Clicar num Pokémon da equipe abre esse Pokémon.
+- 🧑‍🚀 **Treinadores**: o modo Treinadores abre com os 12 no visor, cada um com insígnias e equipe em miniatura. Escolher um mostra a ficha com a equipe grande, e clicar num Pokémon da equipe abre esse Pokémon.
 - ⚠️ **Lista vazia tratada**: o visor diz o que foi buscado e oferece "Limpar".
 - 📱 **Layout responsivo**: aberto na horizontal no computador e na vertical no tablet e no celular.
 
@@ -89,7 +89,7 @@ A identidade visual foi definida antes do código, no [`DESIGN.md`](DESIGN.md). 
 
 | Peça | O que faz |
 | :--- | :--- |
-| **Visor** (esquerda) | Mostra o Pokémon com a arte oficial sobre a cor do tipo. Com "Lista", vira uma grade de miniaturas dos resultados; no modo Treinadores, mostra o treinador |
+| **Visor** (esquerda) | Mostra o Pokémon com a arte oficial sobre a cor do tipo. Com "Lista", vira uma grade de miniaturas dos resultados. No modo Treinadores, mostra os 12 treinadores ou a ficha de um deles |
 | **Direcional** | ◀ ▶ anterior e próximo; ▲ ▼ sobem e descem na grade; o centro abre e fecha a lista |
 | **Lente azul** | Acende a cada troca de Pokémon |
 | **Luzes** | Vermelha: é favorito. Amarela: há busca ou filtro. Verde: a imagem carregou |
@@ -213,7 +213,8 @@ Abra **http://127.0.0.1:5173** no navegador.
 │   │   ├── MainScreen.jsx       # moldura do visor
 │   │   ├── PokemonCard.jsx      # um Pokémon no visor
 │   │   ├── PokemonList.jsx      # grade de miniaturas no visor
-│   │   ├── TrainerCard.jsx      # um treinador no visor
+│   │   ├── TrainerCard.jsx      # ficha de um treinador no visor
+│   │   ├── TrainerGrid.jsx      # os 12 treinadores no visor
 │   │   ├── EmptyState.jsx       # visor sem resultado
 │   │   ├── StatusLcd.jsx        # LCD verde
 │   │   ├── DPad.jsx             # direcional
@@ -259,9 +260,13 @@ Abra **http://127.0.0.1:5173** no navegador.
 
 ![Grade de Pokémon do tipo Fire no tema escuro](docs/prints/lista-escuro.png)
 
-**Treinadores**, com insígnias e equipe:
+**Treinadores**: os 12 no visor, com insígnias e equipe:
 
-![Modo Treinadores com Brock no visor](docs/prints/treinadores.png)
+![Modo Treinadores com os 12 treinadores no visor](docs/prints/treinadores.png)
+
+**Ficha de um treinador**, com a equipe grande:
+
+![Ficha do Ash no visor](docs/prints/treinador.png)
 
 **Busca sem resultado:**
 
