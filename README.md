@@ -274,6 +274,7 @@ Também foram conferidos no navegador, em 1440, 900, 768 e 375 px de largura: bu
 | Nome | GitHub |
 | :--- | :--- |
 | Victor Cândido Leite | [@thevictorcandido](https://github.com/thevictorcandido) |
+| Marcelo Gomes de Oliveira Junior | [@engsoftmarcelo](https://github.com/engsoftmarcelo) |
 
 ---
 
