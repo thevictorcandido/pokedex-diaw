@@ -56,6 +56,16 @@ export function sortPokemon(list, { key = 'id', direction = 'asc' } = {}) {
   })
 }
 
+/** Treinadores cujo nome ou algum Pokémon da equipe combina com a busca. */
+export function filterTrainers(trainers, query = '') {
+  const q = normalizeText(query)
+  if (q === '') return trainers
+  return trainers.filter(
+    (trainer) =>
+      normalizeText(trainer.name).includes(q) || trainer.team.some((pokemon) => matchesQuery(pokemon, q)),
+  )
+}
+
 /** Direção inicial ao clicar numa coluna: número e nome sobem, atributos descem. */
 export function defaultDirection(key) {
   return key === 'id' || key === 'name' ? 'asc' : 'desc'

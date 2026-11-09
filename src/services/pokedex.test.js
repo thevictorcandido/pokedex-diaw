@@ -27,6 +27,8 @@ describe('pokedex', () => {
   it('lista só os tipos que têm Pokémon, com a contagem', () => {
     const names = pokedex.types.map((t) => t.name)
     expect(names).not.toContain('Dark')
+    expect(names[0]).toBe('Normal')
+    expect(names.at(-1)).toBe('Typeless')
     expect(pokedex.types.find((t) => t.name === 'Water').count).toBe(32)
     expect(pokedex.types.find((t) => t.name === 'Typeless').count).toBe(1)
   })

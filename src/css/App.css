@@ -1,0 +1,78 @@
+/* Moldura: barra lateral + coluna principal. */
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.app__main {
+  min-width: 0;
+}
+
+.app__content {
+  padding: 28px var(--gutter) 64px;
+}
+
+.app__title-row {
+  margin-bottom: 20px;
+}
+
+.app__title {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.app__finding {
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+.app__toolbar {
+  display: none;
+}
+
+/* Tablet: some a barra lateral; navegação no pé e tipos em linha. */
+@media (max-width: 1179px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app > .sidebar {
+    display: none;
+  }
+
+  .app__content {
+    padding-bottom: calc(var(--bottomnav-height) + 48px + env(safe-area-inset-bottom));
+  }
+
+  .app__toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .app__toolbar .type-filter__title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 16px;
+  }
+
+  .app__content {
+    padding-top: 20px;
+  }
+
+  .app__title-row {
+    margin-bottom: 14px;
+  }
+}

@@ -1,0 +1,18 @@
+/* As cores saem de --type-hue e --type-chroma, definidas por tipo em constants/types.js. */
+.type-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: 18px;
+  white-space: nowrap;
+  background: oklch(var(--type-bg-l) calc(var(--type-chroma) * var(--type-bg-c)) var(--type-hue));
+  color: oklch(var(--type-ink-l) calc(var(--type-chroma) * var(--type-ink-c)) var(--type-hue));
+}
+
+.type-badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}

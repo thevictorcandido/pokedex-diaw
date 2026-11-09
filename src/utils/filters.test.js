@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { defaultDirection, filterPokemon, matchesQuery, normalizeText, sortPokemon } from './filters.js'
+import { defaultDirection, filterPokemon, filterTrainers, matchesQuery, normalizeText, sortPokemon } from './filters.js'
 import { pokedex } from '../services/pokedex.js'
 
 const ids = (list) => list.map((p) => p.id)
@@ -89,6 +89,23 @@ describe('sortPokemon', () => {
   it('volta à ordem do número', () => {
     const shuffled = sortPokemon(pokemon, { key: 'speed', direction: 'desc' })
     expect(ids(sortPokemon(shuffled, { key: 'id' }))).toEqual(ids(pokemon))
+  })
+})
+
+describe('filterTrainers', () => {
+  const names = (list) => list.map((t) => t.name)
+
+  it('acha pelo nome do treinador', () => {
+    expect(names(filterTrainers(pokedex.trainers, 'mist'))).toEqual(['Misty'])
+  })
+
+  it('acha pelo Pokémon da equipe', () => {
+    expect(names(filterTrainers(pokedex.trainers, 'pikachu'))).toEqual(['Ash'])
+    expect(names(filterTrainers(pokedex.trainers, 'alakazam'))).toEqual(['Sabrina', 'Gary'])
+  })
+
+  it('devolve todos com busca vazia', () => {
+    expect(filterTrainers(pokedex.trainers, '')).toHaveLength(12)
   })
 })
 

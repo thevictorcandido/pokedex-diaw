@@ -1,0 +1,58 @@
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--topbar-height);
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid var(--border);
+  background: var(--ground);
+}
+
+.top-bar__brand {
+  display: none;
+}
+
+.top-bar__brand .brand-mark {
+  width: 26px;
+  height: 26px;
+}
+
+.top-bar__actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+@media (max-width: 1179px) {
+  .top-bar__brand {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .top-bar {
+    gap: 8px;
+  }
+
+  .top-bar .search-bar {
+    flex: 1 1 auto;
+  }
+
+  /* Some da vista, mas continua sendo o nome do botão para leitores de tela. */
+  .top-bar__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .top-bar__actions .button {
+    width: var(--control-height);
+    padding: 0;
+  }
+}

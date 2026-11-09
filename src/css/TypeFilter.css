@@ -1,0 +1,96 @@
+.type-filter__title {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.type-filter__list {
+  list-style: none;
+  padding: 0;
+}
+
+.type-filter__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 0;
+  background: none;
+  transition: background-color 120ms var(--ease-out), color 120ms var(--ease-out);
+}
+
+.type-filter__name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.type-filter__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: oklch(var(--type-ink-l) calc(var(--type-chroma) * var(--type-ink-c)) var(--type-hue));
+}
+
+.type-filter__count {
+  color: var(--muted);
+  font-size: var(--fs-small);
+}
+
+.type-filter__option[aria-pressed='true'] {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.type-filter__option[aria-pressed='true'] .type-filter__count {
+  color: var(--accent-ink);
+}
+
+/* Coluna: barra lateral do computador. */
+.type-filter--column .type-filter__title {
+  padding: 24px 10px 6px;
+}
+
+.type-filter--column .type-filter__option {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: var(--radius-control);
+}
+
+.type-filter--column .type-filter__option:hover {
+  background: var(--raised);
+}
+
+.type-filter--column .type-filter__option[aria-pressed='true'] {
+  background: var(--accent-soft);
+}
+
+/* Linha: selos com rolagem horizontal no tablet e no celular. */
+.type-filter--row .type-filter__list {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px var(--gutter) 6px;
+  margin: 0 calc(var(--gutter) * -1);
+  scrollbar-width: none;
+}
+
+.type-filter--row .type-filter__list::-webkit-scrollbar {
+  display: none;
+}
+
+.type-filter--row .type-filter__option {
+  height: var(--control-height);
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  white-space: nowrap;
+}
+
+.type-filter--row .type-filter__option[aria-pressed='true'] {
+  border-color: var(--accent-track);
+}

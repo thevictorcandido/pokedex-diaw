@@ -1,0 +1,105 @@
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 14px 12px 24px;
+  border-right: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+
+.brand-mark {
+  width: 26px;
+  height: 26px;
+  flex: none;
+}
+
+.brand-mark__body,
+.brand-mark__button {
+  fill: var(--surface);
+  stroke: var(--text);
+  stroke-width: 3;
+}
+
+.brand-mark__top {
+  fill: var(--accent);
+  stroke: var(--text);
+  stroke-width: 3;
+}
+
+.brand__name {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.brand__region {
+  display: block;
+  color: var(--muted);
+  font-size: var(--fs-small);
+  line-height: 1.2;
+}
+
+.sidebar__nav {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: none;
+  text-align: left;
+  transition: background-color 120ms var(--ease-out);
+}
+
+.sidebar__item:hover {
+  background: var(--raised);
+}
+
+.sidebar__item[aria-current='page'] {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.sidebar__label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar__label svg {
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+}
+
+.sidebar__item[aria-current='page'] svg {
+  color: var(--accent);
+}
+
+.sidebar__count {
+  color: var(--muted);
+  font-size: var(--fs-small);
+  font-weight: 400;
+}
+
+.sidebar__item[aria-current='page'] .sidebar__count {
+  color: var(--accent-ink);
+}

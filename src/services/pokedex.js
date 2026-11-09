@@ -38,9 +38,11 @@ export function buildPokedex(data) {
   for (const p of pokemon) {
     for (const type of p.types) typeCounts.set(type, (typeCounts.get(type) ?? 0) + 1)
   }
-  // A ordem dos tipos segue os ids do JSON; tipo sem nenhum Pokémon fica de fora.
+  // A ordem dos tipos segue os ids do JSON, com Typeless (a exceção do Mew) no fim;
+  // tipo sem nenhum Pokémon fica de fora.
   const types = data.types
     .filter((t) => typeCounts.has(t.name))
+    .sort((a, b) => (a.name === FALLBACK_TYPE) - (b.name === FALLBACK_TYPE) || a.id - b.id)
     .map((t) => ({ name: t.name, count: typeCounts.get(t.name) }))
 
   const averages = Object.fromEntries(

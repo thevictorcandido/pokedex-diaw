@@ -1,0 +1,67 @@
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 0 1 380px;
+  min-width: 0;
+}
+
+.search-bar__icon {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.search-bar__input {
+  width: 100%;
+  height: var(--control-height);
+  padding: 0 40px 0 36px;
+  border: 1px solid var(--control);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  font-size: 16px; /* 16px evita o zoom automático do iOS ao focar */
+  transition: border-color 120ms var(--ease-out);
+}
+
+.search-bar__input::placeholder {
+  color: var(--muted);
+}
+
+.search-bar__input:hover {
+  border-color: var(--muted);
+}
+
+.search-bar__input:focus-visible {
+  outline-offset: 0;
+  border-color: var(--accent);
+}
+
+.search-bar__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search-bar__clear {
+  position: absolute;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: none;
+  color: var(--muted);
+}
+
+.search-bar__clear:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+
+.search-bar__clear svg {
+  width: 16px;
+  height: 16px;
+}
