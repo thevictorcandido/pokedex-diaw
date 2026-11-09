@@ -12,7 +12,7 @@
     </td>
     <td>
       <div>
-        <img src="public/favicon.svg" alt="Marca da Pokédex" width="120px"/>
+        <img src="public/pokeball.svg" alt="Marca da Pokédex" width="120px"/>
       </div>
     </td>
   </tr>
@@ -204,7 +204,7 @@ Abra **http://127.0.0.1:5173** no navegador.
 ```
 .
 ├── public/
-│   └── favicon.svg              # marca da Pokédex
+│   └── pokeball.svg             # ícone da aba (Pokébola)
 ├── docs/
 │   └── prints/                  # imagens usadas neste README
 ├── src/
