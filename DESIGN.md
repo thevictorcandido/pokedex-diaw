@@ -138,13 +138,17 @@ Lista com uma linha por treinador: nome, insígnias em número e em marcas (pree
 - **Favoritos vazio:** "Nenhum favorito ainda. Toque na estrela de um Pokémon para guardá-lo aqui."
 - **Foco visível** em toda linha, botão e campo: anel de 2px em `--accent` com 2px de afastamento.
 
-## 9. Celular (até 767px)
+## 9. Tablet e celular
 
-- A barra lateral vira barra inferior com três destinos (Pokémon, Treinadores, Favoritos).
-- O filtro de tipo vira uma fileira de selos com rolagem horizontal, acima da lista.
-- A tabela vira itens de duas linhas: retrato, `#025` e nome, tipos e total na primeira; os seis atributos em 13px cinza na segunda.
-- A ordenação passa para um `<select>` ("Ordenar por").
-- Alvos de toque com no mínimo 44px.
+Três faixas, medidas na verificação (a tabela completa precisa de cerca de 800px e passava da tela em 768px):
+
+| Largura | O que muda |
+|---|---|
+| até 1179px | A barra lateral vira barra inferior com três destinos (Pokémon, Treinadores, Favoritos); o filtro de tipo vira uma fileira de selos com rolagem horizontal, acima da lista |
+| até 899px | A tabela vira itens: `#025`, nome e total na primeira linha, tipos na segunda e os seis atributos em 13px numa grade de 3 colunas (tablet) ou 2 colunas (abaixo de 600px). A ordenação passa para um `<select>` ("Ordenar por") |
+| até 767px | O detalhe vira folha que sobe do pé da tela; os botões do topo ficam só com ícone |
+
+- Alvos de toque com no mínimo 44px quando o ponteiro é de toque (`pointer: coarse`).
 
 ## 10. Movimento
 
